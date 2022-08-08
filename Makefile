@@ -1,10 +1,13 @@
 HEADER_SOURCE := header.adoc
-PDF_RESULT := example-spec.pdf
 
-all: build
+SPEC=riscv-zicondops
+DATE=$(shell date  +%Y%m%d)
+VERSION=$(shell git describe --tag --always --dirty)
+PDF_RESULT := $(SPEC)-$(VERSION).pdf
 
-build:
+all: $(PDF_RESULT)
 
+$(PDF_RESULT):
 	@echo "Building asciidoc"
 	asciidoctor-pdf \
     --attribute=mathematical-format=svg \
@@ -14,8 +17,8 @@ build:
     --require=asciidoctor-bibtex \
     --require=asciidoctor-diagram \
     --require=asciidoctor-mathematical \
-    --out-file=$(PDF_RESULT) \
+    --out-file=$@ \
     $(HEADER_SOURCE)
 
 clean:
-	rm $(PDF_RESULT)
+	-rm -f $(SPEC)-*.pdf
