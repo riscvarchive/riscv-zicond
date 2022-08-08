@@ -19,6 +19,7 @@ $(PDF_RESULT):
     --require=asciidoctor-mathematical \
     --out-file=$@ \
     $(HEADER_SOURCE)
+	gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer -sOutputFile=opt-$@ $@ && mv opt-$@ $@
 
 clean:
 	-rm -f $(SPEC)-*.pdf
