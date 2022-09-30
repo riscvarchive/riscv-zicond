@@ -1,0 +1,204 @@
+[[ZiCondOps]]
+== ZiCondOps proposed specification
+
+The "Conditional Ops" extension provides a simple solution that provides most of the benefit and all of the flexibility one would desire to support conditional arithmetic and conditional-select/move operations, while remaining true to the RISC-V design philosophy.
+The instructions follow the format for R-type instructions with 3 operands (i.e., 2 source operands and 1 destinantion operand).
+Using these instructions, branchless sequences can be implemented (typically in two-instruction sequenes) without the need for instruction fusion, special provisions during the decoding of architectural instrucitons, or other microarchitectural provisions.
+
+The following instructions comprise the ZiCondops extension:
+
+[%header,cols="^1,^1,4,8"]
+|===
+|RV32
+|RV64
+|Mnemonic
+|Instruction
+
+|&#10003;
+|&#10003;
+|mask.nez _rd_, _rs1_, _rs2_
+|<<#insns-maskeqz>>
+
+|&#10003;
+|&#10003;
+|mask.eqz _rd_, _rs1_, _rs2_
+|<<#insns-masknez>>
+
+|===
+
+[NOTE]
+====
+Architecture Comment: defining additional comparisons, in addition to equal-to-zero and not-equal-to-zero, does not offer a benefit due to the lack of immediates or an additional register operand that the comparison takes place against. 
+====
+
+Based on these two instructions, synthetic instructions (i.e., short instruction sequences) for the following *conditional arithmetic* operations are supported:
+
+* conditional add, if zero
+* conditional add, if non-zero
+* conditional subtract, if zero
+* conditional subtract, if non-zero
+* conditional bitwise-and, if zero
+* conditional bitwise-and, if non-zero
+* conditional bitwise-or, if zero
+* conditional bitwise-or, if non-zero
+* conditional bitwise-xor, if zero
+* conditional bitwise-xor, if non-zero
+
+Additionally, the following *conditional select* intructions are supported:
+
+* conditional-select, if zero
+* conditional-select, if non-zero
+
+More complex conditions, such as comparisons against immediates, registers, single-bit tests, comparisons against ranges, etc. can be realised by composing these new instructions with existing instructions.
+
+=== Instruction sequences
+
+[%header,cols="4,.^3l,^2"]
+|===
+|Operation
+|Instruction sequence
+|Length
+
+|*Conditional add, if zero* +
+`rd = (rc == 0) ? (rs1 + rs2) : rs1`
+|mask.eqz   rd, rs2, rc
+add        rd, rs1, rd
+.8+.^|2 insns
+
+|*Conditional add, if non-zero* +
+`rd = (rc != 0) ? (rs1 + rs2) : rs1`
+|mask.nez  rd, rs2, rc
+add        rd, rs1, rd
+
+|*Conditional subtract, if zero* +
+`rd = (rc == 0) ? (rs1 - rs2) : rs1`
+|mask.eqz   rd, rs2, rc
+sub        rd, rs1, rd
+
+|*Conditional subtract, if non-zero* +
+`rd = (rc != 0) ? (rs1 - rs2) : rs1`
+|mask.nez    rd, rs2, rc
+sub        rd, rs1, rd
+
+|*Conditional bitwise-or, if zero* +
+`rd = (rc == 0) ? (rs1 \| rs2) : rs1`
+|mask.eqz   rd, rs2, rc
+or         rd, rs1, rd
+
+|*Conditional bitwise-or, if non-zero* +
+`rd = (rc != 0) ? (rs1 \| rs2) : rs1`
+|mask.nez    rd, rs2, rc
+or         rd, rs1, rd
+
+|*Conditional bitwise-xor, if zero* +
+`rd = (rc == 0) ? (rs1 ^ rs2) : rs1`
+|mask.eqz   rd, rs2, rc
+xor        rd, rs1, rd
+
+|*Conditional bitwise-xor, if non-zero* +
+`rd = (rc != 0) ? (rs1 ^ rs2) : rs1`
+|mask.nez    rd, rs2, rc
+xor        rd, rs1, rd
+
+|*Conditional bitwise-and, if zero* +
+`rd = (rc == 0) ? (rs1 & rs2) : rs1`
+|and        rd, rs1, rs2
+mask.nez    rtmp, rs1, rc
+or         rd, rd, rtmp
+.4+.^|3 insns +
+(requires 1 temporary)
+
+|*Conditional bitwise-and, if non-zero* +
+`rd = (rc != 0) ? (rs1 & rs2) : rs1`
+|and        rd, rs1, rs2
+mask.eqz   rtmp, rs1, rc
+or         rd, rd, rtmp
+
+|*Conditional select, if zero* +
+`rd = (rc == 0) ? rs1 : rs2`
+|mask.eqz   rd, rs1, rc
+mask.nez    rtmp, rs2, rc
+or         rd, rd, rtmp
+
+|*Conditional select, if non-zero* +
+`rd = (rc != 0) ? rs1 : rs2`
+|mask.nez    rd, rs1, rc
+mask.eqz   rtmp, rs2, rc
+or         rd, rd, rtmp
+
+|===
+
+== Instructions
+
+[#insns-masknez,reftext="Mask register value, if condition is not-equal to zero"]
+=== mask.nez
+
+Synopsis::
+Masks a value (_rs1_) on condition of a truth value (_rs2_)
+
+Mnemonic::
+mask.nez _rd_, _rs1_, _rs2_
+
+Encoding::
+[wavedrom, , svg]
+....
+{reg:[
+    { bits:  7, name: 0x33, attr: ['OP'] },
+    { bits:  5, name: 'rd' },
+    { bits:  3, name: 0x2, attr: ['SLT']},
+    { bits:  5, name: 'rs1', attr: ['value'] },
+    { bits:  5, name: 'rs2', attr: ['condition'] },
+    { bits:  7, name: 0x40, attr: ['MASK.NEZ'] },
+]}
+....
+
+Description:: 
+If the value of register _rs2_ is non-zero, place the value of register _rs1_ into the register _rd_. +
+Otherwise, put the value 0 (zero) into _rd_.
+
+Operation::
+[source,sail]
+--
+let value = X(rs1);
+let condition = X(rs2);
+
+X(rd) = if (condition != 0) then value
+      	                    else 0;
+--
+
+[#insns-maskeqz,reftext="Mask register value, if condition is equal to zero"]
+=== mask.eqz
+
+Synopsis::
+Masks a value (_rs1_) on the negated condition of a truth value (_rs2_)
+
+Mnemonic::
+mask.eqz _rd_, _rs1_, _rs2_
+
+Encoding::
+[wavedrom, , svg]
+....
+{reg:[
+    { bits:  7, name: 0x33, attr: ['OP'] },
+    { bits:  5, name: 'rd' },
+    { bits:  3, name: 0x3, attr: ['SLTU']},
+    { bits:  5, name: 'rs1', attr: ['value'] },
+    { bits:  5, name: 'rs2', attr: ['condition'] },
+    { bits:  7, name: 0x40, attr: ['MASK.EQZ'] },
+]}
+....
+
+Description:: 
+If the value of register _rs2_ is zero, place the value of register _rs1_ into the register _rd_. +
+Otherwise, put the value 0 (zero) into _rd_.
+
+Operation::
+[source,sail]
+--
+let value = X(rs1);
+let condition = X(rs2);
+
+X(rd) = if (condition == 0) then value
+      	                    else 0;
+--
+

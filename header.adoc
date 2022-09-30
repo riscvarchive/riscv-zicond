@@ -1,7 +1,7 @@
 [[header]]
-:description: RISC-V Example Specification Document (Zexmpl)
+:description: RISC-V Integer Conditional Operations (ZiCondOps) extension
 :company: RISC-V.org
-:revdate: 1/2022
+:revdate: 9/2022
 :revnumber: 1.0
 :revremark: This document is in development. Assume everything can change. See http://riscv.org/spec-state for details.
 :url-riscv: http://riscv.org
@@ -15,9 +15,9 @@
 :experimental:
 :reproducible:
 // needs to be changed? bug discussion started
-//:WaveDromEditorApp: app/wavedrom-editor.app
+// :WaveDromEditorApp: app/wavedrom-editor.app
 :imagesoutdir: images
-:bibtex-file: example.bib
+:bibtex-file: zicondops.bib
 :bibtex-order: alphabetical
 :bibtex-style: apa
 :icons: font
@@ -36,8 +36,8 @@ endif::[]
 :footnote:
 :xrefstyle: short
 
-= RISC-V Example Specification Document (Zexmpl)
-Author 1; Author 2; RISC-V Task Group
+= RISC-V Integer Conditional Operations (ZiCondOps) extension
+Dr. Philipp Tomsich (VRULL GmbH)
 
 // Preamble
 [WARNING]
@@ -61,7 +61,7 @@ Copyright 2022 by RISC-V International.
 include::contributors.adoc[]
 
 include::intro.adoc[]
-include::chapter2.adoc[]
+include::zicondops.adoc[]
 //the index must precede the bibliography
 include::index.adoc[]
 include::bibliography.adoc[]
