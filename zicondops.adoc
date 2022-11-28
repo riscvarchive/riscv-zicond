@@ -130,11 +130,11 @@ or         rd, rd, rtmp
 
 == Instructions
 
-[#insns-czero-eqz,reftext="Mask register value, if condition is not-equal to zero"]
+[#insns-czero-eqz,reftext="Conditional zero, if condition is equal to zero"]
 === czero.eqz
 
 Synopsis::
-Masks a value (_rs1_) on condition of a truth value (_rs2_)
+Moves zero to a register _rd_, if the condition _rs2_ is equal to zero, otherwise moves _rs1_ to _rd_.
 
 Mnemonic::
 czero.eqz _rd_, _rs1_, _rs2_
@@ -152,9 +152,9 @@ Encoding::
 ]}
 ....
 
-Description:: 
-If the value of register _rs2_ is non-zero, place the value of register _rs1_ into the register _rd_. +
-Otherwise, put the value 0 (zero) into _rd_.
+Description::
+If the value of register _rs2_ is zero, place 0 (zero) into the register _rd_. +
+Otherweise, put the value of register _rs1_ into _rd_.
 
 Operation::
 [source,sail]
@@ -166,11 +166,11 @@ X(rd) = if (condition == 0) then 0
       	                    else value;
 --
 
-[#insns-czero-nez,reftext="Mask register value, if condition is equal to zero"]
+[#insns-czero-nez,reftext="Conditional zero, if condition is not-zero")
 === czero.nez
 
 Synopsis::
-Masks a value (_rs1_) on the negated condition of a truth value (_rs2_)
+Moves zero to a register _rd_, if the condition _rs2_ is not-zero, otherwise moves _rs1_ to _rd_.
 
 Mnemonic::
 czero.nez _rd_, _rs1_, _rs2_
@@ -189,8 +189,8 @@ Encoding::
 ....
 
 Description:: 
-If the value of register _rs2_ is zero, place the value of register _rs1_ into the register _rd_. +
-Otherwise, put the value 0 (zero) into _rd_.
+If the value of register _rs2_ is non-zero, place 0 (zero) into the register _rd_. +
+Otherweise, put the value of register _rs1_ into _rd_.
 
 Operation::
 [source,sail]
