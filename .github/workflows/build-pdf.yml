@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NAME: example-spec
+      NAME: riscv-zicondops
       APT_PACKAGES_FILE: ${{ github.workspace }}/dependencies/apt_packages.txt
       BUNDLE_GEMFILE: ${{ github.workspace }}/dependencies/Gemfile
       BUNDLE_BIN: ${{ github.workspace }}/bin
@@ -71,9 +71,12 @@ jobs:
       run: |
         PATH=${PATH}:${BUNDLE_BIN}:$(npm bin) \
         make
+    - name: GIT describe
+      id: git_describe
+      run: echo "::set-output name=tag::$(git describe --tag --always --dirty)"
     - name: Archive PDF result
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.NAME }}.pdf
-        path: ${{ env.NAME }}.pdf
+        name: ${{ env.NAME }}-${{ steps.git_describe.outputs.tag }}.pdf
+        path: ${{ env.NAME }}-${{ steps.git_describe.outputs.tag }}.pdf
         retention-days: 7
