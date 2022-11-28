@@ -166,7 +166,7 @@ X(rd) = if (condition == 0) then 0
       	                    else value;
 --
 
-[#insns-czero-nez,reftext="Conditional zero, if condition is not-zero")
+[#insns-czero-nez,reftext="Conditional zero, if condition is not-zero"]
 === czero.nez
 
 Synopsis::
