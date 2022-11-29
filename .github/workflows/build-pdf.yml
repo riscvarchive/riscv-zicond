@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NAME: riscv-zicondops
+      NAME: riscv-zicond
       APT_PACKAGES_FILE: ${{ github.workspace }}/dependencies/apt_packages.txt
       BUNDLE_GEMFILE: ${{ github.workspace }}/dependencies/Gemfile
       BUNDLE_BIN: ${{ github.workspace }}/bin

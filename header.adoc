@@ -1,5 +1,5 @@
 [[header]]
-:description: RISC-V Integer Conditional Operations (ZiCondOps) extension
+:description: RISC-V Integer Conditional (ZiCond) operations extension
 :company: RISC-V.org
 :revdate: 9/2022
 :revnumber: 1.0
@@ -36,7 +36,7 @@ endif::[]
 :footnote:
 :xrefstyle: short
 
-= RISC-V Integer Conditional Operations (ZiCondOps) extension
+= RISC-V Integer Conditional (ZiCond) operations extension
 Dr. Philipp Tomsich (VRULL GmbH)
 
 // Preamble
