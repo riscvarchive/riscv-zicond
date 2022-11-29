@@ -145,10 +145,10 @@ Encoding::
 {reg:[
     { bits:  7, name: 0x33, attr: ['OP'] },
     { bits:  5, name: 'rd' },
-    { bits:  3, name: 0x2, attr: ['SLT']},
+    { bits:  3, name: 0x5, attr: ['CZERO.EQZ']},
     { bits:  5, name: 'rs1', attr: ['value'] },
     { bits:  5, name: 'rs2', attr: ['condition'] },
-    { bits:  7, name: 0x40, attr: ['CZERO.EQZ'] },
+    { bits:  7, name: 0x03, attr: ['CZERO'] },
 ]}
 ....
 
@@ -181,10 +181,10 @@ Encoding::
 {reg:[
     { bits:  7, name: 0x33, attr: ['OP'] },
     { bits:  5, name: 'rd' },
-    { bits:  3, name: 0x3, attr: ['SLTU']},
+    { bits:  3, name: 0x7, attr: ['CZERO.NEZ']},
     { bits:  5, name: 'rs1', attr: ['value'] },
     { bits:  5, name: 'rs2', attr: ['condition'] },
-    { bits:  7, name: 0x40, attr: ['CZERO.NEZ'] },
+    { bits:  7, name: 0x03, attr: ['CZERO'] },
 ]}
 ....
 
