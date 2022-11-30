@@ -1,6 +1,6 @@
 HEADER_SOURCE := header.adoc
 
-SPEC=riscv-zicondops
+SPEC=riscv-zicond
 DATE=$(shell date  +%Y%m%d)
 VERSION=$(shell git describe --tag --always --dirty)
 PDF_RESULT := $(SPEC)-$(VERSION).pdf
