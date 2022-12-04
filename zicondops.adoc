@@ -165,11 +165,11 @@ Furthermore, implementations can predict the condition just as they might for br
 Operation::
 [source,sail]
 --
-let value = X(rs1);
-let condition = X(rs2);
-
-X(rd) = if (condition == 0) then 0
-      	                    else value;
+  let value = X(rs1);
+  let condition = X(rs2);
+  result : xlenbits = if (condition == zeros()) then zeros()
+                                                else value;
+  X(rd) = result;
 --
 
 [#insns-czero-nez,reftext="Conditional zero, if condition is not-zero"]
@@ -207,10 +207,10 @@ Furthermore, implementations can predict the condition just as they might for br
 Operation::
 [source,sail]
 --
-let value = X(rs1);
-let condition = X(rs2);
-
-X(rd) = if (condition != 0) then 0
-      	                    else value;
+  let value = X(rs1);
+  let condition = X(rs2);
+  result : xlenbits = if (condition != zeros()) then zeros()
+                                                else value;
+  X(rd) = result;
 --
 
