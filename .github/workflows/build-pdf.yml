@@ -31,19 +31,23 @@ jobs:
       BUNDLE_BIN: ${{ github.workspace }}/bin
       NPM_PACKAGE_FOLDER: ${{ github.workspace }}/dependencies
     outputs:
+      tag: ${{ steps.git_describe.outputs.tag }}
       name: ${{ steps.step1.outputs.name }}
       pdf-name: ${{ steps.step2.outputs.pdf-name }}
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+    - name: GIT describe
+      id: git_describe
+      run: echo "::set-output name=tag::$(git describe --tag --always --dirty)"
     - name: Set outputs.name
       id: step1
       run: echo "::set-output name=name::$NAME"
     - name: Set outputs.pdf-name
       id: step2
-      run: echo "::set-output name=pdf-name::$NAME.pdf"
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        submodules: 'true'
+      run: echo "::set-output name=pdf-name::${{ env.NAME }}-${{ steps.git_describe.outputs.tag }}.pdf"
     - name: Install Ubuntu packages
       run: |
         sudo apt-get update
@@ -71,9 +75,6 @@ jobs:
       run: |
         PATH=${PATH}:${BUNDLE_BIN}:$(npm bin) \
         make
-    - name: GIT describe
-      id: git_describe
-      run: echo "::set-output name=tag::$(git describe --tag --always --dirty)"
     - name: Archive PDF result
       uses: actions/upload-artifact@v2
       with:
