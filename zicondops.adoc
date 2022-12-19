@@ -128,8 +128,9 @@ or         rd, rd, rtmp
 
 |===
 
-== Instructions
+== Instructions (in alphabetical order)
 
+<<<
 [#insns-czero-eqz,reftext="Conditional zero, if condition is equal to zero"]
 === czero.eqz
 
@@ -153,14 +154,17 @@ Encoding::
 ....
 
 Description::
-If the value of register _rs2_ is zero, place 0 (zero) into the register _rd_. +
-Otherwise, place the value of register _rs1_ into _rd_.
+This instruction behaves as if there is a conditional branch dependent on _rs2_ being equal to zero, wherein it branches to code that writes a 0 into _rd_ when the equivalence is true, and otherwise falls through to code that moves _rs1_ into _rd_.
+Accordingly, the syntactic dependency on _rs1_ is only propagated when the condition is false. +
 
-The instruction behaves as if there were a conditional branch dependent on _rs2_ being equal to zero that resulted in either a move of _rs1_ into _rd_ or a move of the value zero into _rd_, such that the syntactic dependency on _rs1_ is only propagated when the condition is false.
+In effect, if the value of register _rs2_ is zero, place 0 (zero) into the register _rd_; otherwise, place the value of register _rs1_ into _rd_.
 
-Note that these branch-based semantics do not prevent implementing this instruction as a simple select (e.g., "(rs2==0) ? 0 : rs1").
+[NOTE]
+====
+These branch-based semantics do not prevent implementing this instruction as a simple select (e.g., "(rs2==0) ? 0 : rs1").
 Instead, they allow for more sophisticated implementations where a zero-result can be returned when the condition (rs2==0) is true without waiting for _rs1_ to be available.
 Furthermore, implementations can predict the condition just as they might for branches.
+====
 
 Operation::
 [source,sail]
@@ -172,8 +176,18 @@ Operation::
   X(rd) = result;
 --
 
-<<<
+Pseudocode::
+[source,asm]
+--
+    beqz rs2, 1f
+    mv   rd, rs1
+    j    2f
+  1:
+    mv   rd, zero
+  2:
+--
 
+<<<
 [#insns-czero-nez,reftext="Conditional zero, if condition is not-zero"]
 === czero.nez
 
@@ -196,15 +210,18 @@ Encoding::
 ]}
 ....
 
-Description:: 
-If the value of register _rs2_ is non-zero, place 0 (zero) into the register _rd_. +
-Otherwise, place the value of register _rs1_ into _rd_.
+Description::
+This instruction behaves as if there is a conditional branch dependent on _rs2_ being not equal to zero, wherein it branches to code that writes a 0 into _rd_ when the equivalence is true, and otherwise falls through to code that moves _rs1_ into _rd_.
+Accordingly, the syntactic dependency on _rs1_ is only propagated when the condition is false. +
 
-The instruction behaves as if there were a conditional branch dependent on _rs2_ being non-zero that resulted in either a move of _rs1_ into _rd_ or a move of the value zero into _rd_, such that the syntactic dependency on _rs1_ is only propagated when the condition is false.
+In effect, if the value of register _rs2_ is non-zero, place 0 (zero) into the register _rd_; otherwise, place the value of register _rs1_ into _rd_.
 
-Note that these branch-based semantics do not prevent implementing this instruction as a simple select (e.g., "(rs2!=0) ? 0 : rs1").
+[NOTE]
+====
+These branch-based semantics do not prevent implementing this instruction as a simple select (e.g., "(rs2!=0) ? 0 : rs1").
 Instead, they allow for more sophisticated implementations where a zero-result can be returned when the condition (rs2!=0) is true without waiting for _rs1_ to be available.
 Furthermore, implementations can predict the condition just as they might for branches.
+====
 
 Operation::
 [source,sail]
@@ -216,3 +233,13 @@ Operation::
   X(rd) = result;
 --
 
+Pseudocode::
+[source,asm]
+--
+    bnez rs2, 1f
+    mv   rd, rs1
+    j    2f
+  1:
+    mv   rd, zero
+  2:
+--
