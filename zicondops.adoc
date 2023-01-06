@@ -1,9 +1,9 @@
 [[ZiCond]]
 == ZiCond proposed specification
 
-The "Conditional" operations extension provides a simple solution that provides most of the benefit and all of the flexibility one would desire to support conditional arithmetic and conditional-select/move operations, while remaining true to the RISC-V design philosophy.
+The "Conditional" operations extension defines a simple solution that provides most of the benefit and all of the flexibility one would desire to support conditional arithmetic and conditional-select/move operations, while remaining true to the RISC-V design philosophy.
 The instructions follow the format for R-type instructions with 3 operands (i.e., 2 source operands and 1 destinantion operand).
-Using these instructions, branchless sequences can be implemented (typically in two-instruction sequenes) without the need for instruction fusion, special provisions during the decoding of architectural instrucitons, or other microarchitectural provisions.
+Using these instructions, branchless sequences can be implemented (typically in two-instruction sequences) without the need for instruction fusion, special provisions during the decoding of architectural instrucitons, or other microarchitectural provisions.
 
 The following instructions comprise the ZiCond extension:
 
@@ -166,7 +166,7 @@ Instead, they allow for more sophisticated implementations where a zero-result c
 Furthermore, implementations can predict the condition just as they might for branches.
 ====
 
-Operation::
+SAIL Code::
 [source,sail]
 --
   let value = X(rs1);
@@ -223,7 +223,7 @@ Instead, they allow for more sophisticated implementations where a zero-result c
 Furthermore, implementations can predict the condition just as they might for branches.
 ====
 
-Operation::
+SAIL Code::
 [source,sail]
 --
   let value = X(rs1);
