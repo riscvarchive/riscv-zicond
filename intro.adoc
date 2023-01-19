@@ -1,6 +1,6 @@
 [[intro]]
 == Introduction
-The ZiCondOps extension defines provides a simple solution that provides most of the benefit and all of the flexibility one would desire to support conditional arithmetic and conditional-select/move operations, while remaining true to the RISC-V design philosophy.
+The ZiCond extension defines provides a simple solution that provides most of the benefit and all of the flexibility one would desire to support conditional arithmetic and conditional-select/move operations, while remaining true to the RISC-V design philosophy.
 The instructions follow the format for R-type instructions with 3 operands (i.e., 2 source operands and 1 destinantion operand).
 Using these instructions, branchless sequences can be implemented (typically in two-instruction sequenes) without the need for instruction fusion, special provisions during the decoding of architectural instrucitons, or other microarchitectural provisions.
 
