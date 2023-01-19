@@ -188,11 +188,11 @@ Pseudocode::
 --
 
 <<<
-[#insns-czero-nez,reftext="Conditional zero, if condition is not-zero"]
+[#insns-czero-nez,reftext="Conditional zero, if condition is nonzero"]
 === czero.nez
 
 Synopsis::
-Moves zero to a register _rd_, if the condition _rs2_ is not-zero, otherwise moves _rs1_ to _rd_.
+Moves zero to a register _rd_, if the condition _rs2_ is nonzero, otherwise moves _rs1_ to _rd_.
 
 Mnemonic::
 czero.nez _rd_, _rs1_, _rs2_
