@@ -2,8 +2,8 @@
 == Zicond proposed specification
 
 The "Conditional" operations extension provides a simple solution that provides most of the benefit and all of the flexibility one would desire to support conditional arithmetic and conditional-select/move operations, while remaining true to the RISC-V design philosophy.
-The instructions follow the format for R-type instructions with 3 operands (i.e., 2 source operands and 1 destinantion operand).
-Using these instructions, branchless sequences can be implemented (typically in two-instruction sequenes) without the need for instruction fusion, special provisions during the decoding of architectural instrucitons, or other microarchitectural provisions.
+The instructions follow the format for R-type instructions with 3 operands (i.e., 2 source operands and 1 destination operand).
+Using these instructions, branchless sequences can be implemented (typically in two-instruction sequences) without the need for instruction fusion, special provisions during the decoding of architectural instructions, or other microarchitectural provisions.
 
 The following instructions comprise the Zicond extension:
 
@@ -44,12 +44,12 @@ Based on these two instructions, synthetic instructions (i.e., short instruction
 * conditional bitwise-xor, if zero
 * conditional bitwise-xor, if non-zero
 
-Additionally, the following *conditional select* intructions are supported:
+Additionally, the following *conditional select* instructions are supported:
 
 * conditional-select, if zero
 * conditional-select, if non-zero
 
-More complex conditions, such as comparisons against immediates, registers, single-bit tests, comparisons against ranges, etc. can be realised by composing these new instructions with existing instructions.
+More complex conditions, such as comparisons against immediates, registers, single-bit tests, comparisons against ranges, etc. can be realized by composing these new instructions with existing instructions.
 
 === Instruction sequences
 
