@@ -61,7 +61,7 @@ More complex conditions, such as comparisons against immediates, registers, sing
 
 |*Conditional add, if zero* +
 `rd = (rc == 0) ? (rs1 + rs2) : rs1`
-|czero.nez   rd, rs2, rc
+|czero.nez  rd, rs2, rc
 add        rd, rs1, rd
 .8+.^|2 insns
 
@@ -72,38 +72,38 @@ add        rd, rs1, rd
 
 |*Conditional subtract, if zero* +
 `rd = (rc == 0) ? (rs1 - rs2) : rs1`
-|czero.nez   rd, rs2, rc
+|czero.nez  rd, rs2, rc
 sub        rd, rs1, rd
 
 |*Conditional subtract, if non-zero* +
 `rd = (rc != 0) ? (rs1 - rs2) : rs1`
-|czero.eqz    rd, rs2, rc
+|czero.eqz  rd, rs2, rc
 sub        rd, rs1, rd
 
 |*Conditional bitwise-or, if zero* +
 `rd = (rc == 0) ? (rs1 \| rs2) : rs1`
-|czero.nez   rd, rs2, rc
+|czero.nez  rd, rs2, rc
 or         rd, rs1, rd
 
 |*Conditional bitwise-or, if non-zero* +
 `rd = (rc != 0) ? (rs1 \| rs2) : rs1`
-|czero.eqz    rd, rs2, rc
+|czero.eqz  rd, rs2, rc
 or         rd, rs1, rd
 
 |*Conditional bitwise-xor, if zero* +
 `rd = (rc == 0) ? (rs1 ^ rs2) : rs1`
-|czero.nez   rd, rs2, rc
+|czero.nez  rd, rs2, rc
 xor        rd, rs1, rd
 
 |*Conditional bitwise-xor, if non-zero* +
 `rd = (rc != 0) ? (rs1 ^ rs2) : rs1`
-|czero.eqz    rd, rs2, rc
+|czero.eqz  rd, rs2, rc
 xor        rd, rs1, rd
 
 |*Conditional bitwise-and, if zero* +
 `rd = (rc == 0) ? (rs1 & rs2) : rs1`
 |and        rd, rs1, rs2
-czero.eqz    rtmp, rs1, rc
+czero.eqz  rtmp, rs1, rc
 or         rd, rd, rtmp
 .4+.^|3 insns +
 (requires 1 temporary)
@@ -111,19 +111,19 @@ or         rd, rd, rtmp
 |*Conditional bitwise-and, if non-zero* +
 `rd = (rc != 0) ? (rs1 & rs2) : rs1`
 |and        rd, rs1, rs2
-czero.nez   rtmp, rs1, rc
+czero.nez  rtmp, rs1, rc
 or         rd, rd, rtmp
 
 |*Conditional select, if zero* +
 `rd = (rc == 0) ? rs1 : rs2`
-|czero.nez   rd, rs1, rc
-czero.eqz    rtmp, rs2, rc
+|czero.nez  rd, rs1, rc
+czero.eqz  rtmp, rs2, rc
 or         rd, rd, rtmp
 
 |*Conditional select, if non-zero* +
 `rd = (rc != 0) ? rs1 : rs2`
-|czero.eqz    rd, rs1, rc
-czero.nez   rtmp, rs2, rc
+|czero.eqz  rd, rs1, rc
+czero.nez  rtmp, rs2, rc
 or         rd, rd, rtmp
 
 |===
