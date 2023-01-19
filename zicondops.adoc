@@ -164,6 +164,8 @@ In effect, if the value of register _rs2_ is zero, place 0 (zero) into the regis
 These branch-based semantics do not prevent implementing this instruction as a simple select (e.g., "(rs2==0) ? 0 : rs1").
 Instead, they allow for more sophisticated implementations where a zero-result can be returned when the condition (rs2==0) is true without waiting for _rs1_ to be available.
 Furthermore, implementations can predict the condition just as they might for branches.
+
+As a consequence of this instruction's equivalence to `mv rd, rs1` when _rs2_ is nonzero, this instruction's timing is independent of the data value of _rs1_ if the Zkt extension is implemented.
 ====
 
 Operation::
@@ -221,6 +223,9 @@ In effect, if the value of register _rs2_ is non-zero, place 0 (zero) into the r
 These branch-based semantics do not prevent implementing this instruction as a simple select (e.g., "(rs2!=0) ? 0 : rs1").
 Instead, they allow for more sophisticated implementations where a zero-result can be returned when the condition (rs2!=0) is true without waiting for _rs1_ to be available.
 Furthermore, implementations can predict the condition just as they might for branches.
+However, the timing is independent of the data value in rs1.
+
+As a consequence of this instruction's equivalence to `mv rd, rs1` when _rs2_ is zero, this instruction's timing is independent of the data value of _rs1_ if the Zkt extension is implemented.
 ====
 
 Operation::
