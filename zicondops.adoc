@@ -168,7 +168,7 @@ Furthermore, implementations can predict the condition just as they might for br
 As a consequence of this instruction's equivalence to `mv rd, rs1` when _rs2_ is nonzero, this instruction's timing is independent of the data value of _rs1_ if the Zkt extension is implemented.
 ====
 
-Operation::
+SAIL code::
 [source,sail]
 --
   let value = X(rs1);
@@ -228,7 +228,7 @@ However, the timing is independent of the data value in rs1.
 As a consequence of this instruction's equivalence to `mv rd, rs1` when _rs2_ is zero, this instruction's timing is independent of the data value of _rs1_ if the Zkt extension is implemented.
 ====
 
-Operation::
+SAIL code::
 [source,sail]
 --
   let value = X(rs1);
