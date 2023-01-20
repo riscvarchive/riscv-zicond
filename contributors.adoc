@@ -4,4 +4,3 @@ This RISC-V specification has been contributed to directly or indirectly by:
 
 [%hardbreaks]
 * Dr. Philipp Tomsich <philipp.tomsich@vrull.eu>
-* Author2 <required2@email.com>
