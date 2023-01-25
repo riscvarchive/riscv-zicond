@@ -128,6 +128,29 @@ or         rd, rd, rtmp
 
 |===
 
+=== Alternative sequences with data-invariant timing
+
+The definition of `czero.eqz` and `czero.nez` does not generally guarantee data-invariant timing (although it guarantees independence of the value of one of its arguments, if the Zkt extension is implemented).
+
+However, sequences using instructions covered by Zkt are available to express the same semantics as for the `czero.eqz` and `czero.nez` instructions:
+
+[%header,cols="2,.^4l"]
+|===
+|Zicond instruction
+|Alternative sequence with data-invariant timing
+
+|`czero.eqz rd, rs1, rs2`
+|snez rtmp, rs2
+neg  rtmp, rtmp
+and  rd, rtmp, rs1
+
+|`czero.nez rd, rs1, rs2`
+|seqz rtmp, rs2
+neg  rtmp, rtmp
+and  rd, rtmp, rs1
+
+|===
+
 == Instructions (in alphabetical order)
 
 <<<
