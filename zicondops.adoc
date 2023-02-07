@@ -51,106 +51,6 @@ Additionally, the following *conditional select* instructions are supported:
 
 More complex conditions, such as comparisons against immediates, registers, single-bit tests, comparisons against ranges, etc. can be realized by composing these new instructions with existing instructions.
 
-=== Instruction sequences
-
-[%header,cols="4,.^3l,^2"]
-|===
-|Operation
-|Instruction sequence
-|Length
-
-|*Conditional add, if zero* +
-`rd = (rc == 0) ? (rs1 + rs2) : rs1`
-|czero.nez  rd, rs2, rc
-add        rd, rs1, rd
-.8+.^|2 insns
-
-|*Conditional add, if non-zero* +
-`rd = (rc != 0) ? (rs1 + rs2) : rs1`
-|czero.eqz  rd, rs2, rc
-add        rd, rs1, rd
-
-|*Conditional subtract, if zero* +
-`rd = (rc == 0) ? (rs1 - rs2) : rs1`
-|czero.nez  rd, rs2, rc
-sub        rd, rs1, rd
-
-|*Conditional subtract, if non-zero* +
-`rd = (rc != 0) ? (rs1 - rs2) : rs1`
-|czero.eqz  rd, rs2, rc
-sub        rd, rs1, rd
-
-|*Conditional bitwise-or, if zero* +
-`rd = (rc == 0) ? (rs1 \| rs2) : rs1`
-|czero.nez  rd, rs2, rc
-or         rd, rs1, rd
-
-|*Conditional bitwise-or, if non-zero* +
-`rd = (rc != 0) ? (rs1 \| rs2) : rs1`
-|czero.eqz  rd, rs2, rc
-or         rd, rs1, rd
-
-|*Conditional bitwise-xor, if zero* +
-`rd = (rc == 0) ? (rs1 ^ rs2) : rs1`
-|czero.nez  rd, rs2, rc
-xor        rd, rs1, rd
-
-|*Conditional bitwise-xor, if non-zero* +
-`rd = (rc != 0) ? (rs1 ^ rs2) : rs1`
-|czero.eqz  rd, rs2, rc
-xor        rd, rs1, rd
-
-|*Conditional bitwise-and, if zero* +
-`rd = (rc == 0) ? (rs1 & rs2) : rs1`
-|and        rd, rs1, rs2
-czero.eqz  rtmp, rs1, rc
-or         rd, rd, rtmp
-.4+.^|3 insns +
-(requires 1 temporary)
-
-|*Conditional bitwise-and, if non-zero* +
-`rd = (rc != 0) ? (rs1 & rs2) : rs1`
-|and        rd, rs1, rs2
-czero.nez  rtmp, rs1, rc
-or         rd, rd, rtmp
-
-|*Conditional select, if zero* +
-`rd = (rc == 0) ? rs1 : rs2`
-|czero.nez  rd, rs1, rc
-czero.eqz  rtmp, rs2, rc
-or         rd, rd, rtmp
-
-|*Conditional select, if non-zero* +
-`rd = (rc != 0) ? rs1 : rs2`
-|czero.eqz  rd, rs1, rc
-czero.nez  rtmp, rs2, rc
-or         rd, rd, rtmp
-
-|===
-
-=== Alternative sequences with data-invariant timing
-
-The definition of `czero.eqz` and `czero.nez` does not generally guarantee data-invariant timing (although it guarantees independence of the value of one of its arguments, if the Zkt extension is implemented).
-
-However, sequences using instructions covered by Zkt are available to express the same semantics as for the `czero.eqz` and `czero.nez` instructions:
-
-[%header,cols="2,.^4l"]
-|===
-|Zicond instruction
-|Alternative sequence with data-invariant timing
-
-|`czero.eqz rd, rs1, rs2`
-|snez rtmp, rs2
-neg  rtmp, rtmp
-and  rd, rtmp, rs1
-
-|`czero.nez rd, rs1, rs2`
-|seqz rtmp, rs2
-neg  rtmp, rtmp
-and  rd, rtmp, rs1
-
-|===
-
 == Instructions (in alphabetical order)
 
 <<<
@@ -270,3 +170,107 @@ Pseudocode::
     mv   rd, zero
   2:
 --
+
+== Usage examples
+
+The instructions from this extension can be used to construct sequences that perform conditional-arithmetic, conditional-bitwise-logical, and conditional-select operations.
+
+=== Instruction sequences
+
+[%header,cols="4,.^3l,^2"]
+|===
+|Operation
+|Instruction sequence
+|Length
+
+|*Conditional add, if zero* +
+`rd = (rc == 0) ? (rs1 + rs2) : rs1`
+|czero.nez  rd, rs2, rc
+add        rd, rs1, rd
+.8+.^|2 insns
+
+|*Conditional add, if non-zero* +
+`rd = (rc != 0) ? (rs1 + rs2) : rs1`
+|czero.eqz  rd, rs2, rc
+add        rd, rs1, rd
+
+|*Conditional subtract, if zero* +
+`rd = (rc == 0) ? (rs1 - rs2) : rs1`
+|czero.nez  rd, rs2, rc
+sub        rd, rs1, rd
+
+|*Conditional subtract, if non-zero* +
+`rd = (rc != 0) ? (rs1 - rs2) : rs1`
+|czero.eqz  rd, rs2, rc
+sub        rd, rs1, rd
+
+|*Conditional bitwise-or, if zero* +
+`rd = (rc == 0) ? (rs1 \| rs2) : rs1`
+|czero.nez  rd, rs2, rc
+or         rd, rs1, rd
+
+|*Conditional bitwise-or, if non-zero* +
+`rd = (rc != 0) ? (rs1 \| rs2) : rs1`
+|czero.eqz  rd, rs2, rc
+or         rd, rs1, rd
+
+|*Conditional bitwise-xor, if zero* +
+`rd = (rc == 0) ? (rs1 ^ rs2) : rs1`
+|czero.nez  rd, rs2, rc
+xor        rd, rs1, rd
+
+|*Conditional bitwise-xor, if non-zero* +
+`rd = (rc != 0) ? (rs1 ^ rs2) : rs1`
+|czero.eqz  rd, rs2, rc
+xor        rd, rs1, rd
+
+|*Conditional bitwise-and, if zero* +
+`rd = (rc == 0) ? (rs1 & rs2) : rs1`
+|and        rd, rs1, rs2
+czero.eqz  rtmp, rs1, rc
+or         rd, rd, rtmp
+.4+.^|3 insns +
+(requires 1 temporary)
+
+|*Conditional bitwise-and, if non-zero* +
+`rd = (rc != 0) ? (rs1 & rs2) : rs1`
+|and        rd, rs1, rs2
+czero.nez  rtmp, rs1, rc
+or         rd, rd, rtmp
+
+|*Conditional select, if zero* +
+`rd = (rc == 0) ? rs1 : rs2`
+|czero.nez  rd, rs1, rc
+czero.eqz  rtmp, rs2, rc
+or         rd, rd, rtmp
+
+|*Conditional select, if non-zero* +
+`rd = (rc != 0) ? rs1 : rs2`
+|czero.eqz  rd, rs1, rc
+czero.nez  rtmp, rs2, rc
+or         rd, rd, rtmp
+
+|===
+
+=== Alternative sequences with data-invariant timing
+
+The definition of `czero.eqz` and `czero.nez` does not generally guarantee data-invariant timing (although it guarantees independence of the value of one of its arguments, if the Zkt extension is implemented).
+
+However, sequences using instructions covered by Zkt are available to express the same semantics as for the `czero.eqz` and `czero.nez` instructions:
+
+[%header,cols="2,.^4l"]
+|===
+|Zicond instruction
+|Alternative sequence with data-invariant timing
+
+|`czero.eqz rd, rs1, rs2`
+|snez rtmp, rs2
+neg  rtmp, rtmp
+and  rd, rtmp, rs1
+
+|`czero.nez rd, rs1, rs2`
+|seqz rtmp, rs2
+neg  rtmp, rtmp
+and  rd, rtmp, rs1
+
+|===
