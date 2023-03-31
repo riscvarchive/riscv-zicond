@@ -94,10 +94,9 @@ Furthermore, implementations can predict the condition just as they might for br
 SAIL code::
 [source,sail]
 --
-  let value = X(rs1);
   let condition = X(rs2);
   result : xlenbits = if (condition == zeros()) then zeros()
-                                                else value;
+                                                else X(rs1);
   X(rd) = result;
 --
 
@@ -153,10 +152,9 @@ Furthermore, implementations can predict the condition just as they might for br
 SAIL code::
 [source,sail]
 --
-  let value = X(rs1);
   let condition = X(rs2);
   result : xlenbits = if (condition != zeros()) then zeros()
-                                                else value;
+                                                else X(rs1);
   X(rd) = result;
 --
 
