@@ -3,7 +3,7 @@
 :company: RISC-V.org
 :revdate: 2023-02-22
 :revnumber: 1.0
-:revremark: This document is in development. Assume everything can change. See http://riscv.org/spec-state for details.
+:revremark: This document is frozen. See http://riscv.org/spec-state for details.
 :url-riscv: http://riscv.org
 :doctype: book
 :preface-title: Preamble
