@@ -1,7 +1,7 @@
 [[header]]
 :description: RISC-V Integer Conditional (Zicond) operations extension
 :company: RISC-V.org
-:revdate: 2023-01-25
+:revdate: 2023-02-22
 :revnumber: 1.0
 :revremark: This document is in development. Assume everything can change. See http://riscv.org/spec-state for details.
 :url-riscv: http://riscv.org
@@ -40,12 +40,12 @@ endif::[]
 Dr. Philipp Tomsich (VRULL GmbH)
 
 // Preamble
-[WARNING]
-.This document is in the link:http://riscv.org/spec-state[Development state]
+[NOTE]
+.This document is in the link:http://riscv.org/spec-state[Freeze state]
 ====
-Assume everything can change. This draft specification will change before
-being accepted as standard, so implementations made to this draft
-specification will likely not conform to the future standard.
+Change is extremely unlikely.
+A high threshold will be used, and a change will only occur because of some truly critical issue being identified during the public review cycle.
+Any other desired or needed changes can be the subject of a follow-on new extension.
 ====
 
 [preface]
@@ -55,7 +55,7 @@ Attribution 4.0 International License (CC-BY 4.0). The full
 license text is available at
 https://creativecommons.org/licenses/by/4.0/.
 
-Copyright 2022 by RISC-V International.
+Copyright 2022-2023 by RISC-V International.
 
 [preface]
 include::contributors.adoc[]
