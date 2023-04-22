@@ -2,10 +2,10 @@
 
 *RISC-V conditional operation extension standardisation work.*
 
-- [About](#About)
-- [Specification](#Specification)
-- [Contributors](#Contributors)
-- [Dependencies](#Dependencies)
+- [About](##About)
+- [Specification](##Specification)
+- [Contributors](##Contributors)
+- [Dependencies](##Dependencies)
 
 ## About
 
