@@ -1,0 +1,42 @@
+[[comments]]
+== Public review feedback
+
+The public review has identified a number of typographic errors and helped to improve the grammar and clarity of the document.
+In addition to these editorial improvements, the following key topics have been raised by reviewers.
+
+=== Zicond and RVA profiles
+
+Whether Zicond will be included in future profiles has been raised by multiple reviewers.
+Zicond provides instructions that will be pervasive throughout the instruction stream (i.e., using optimized code-paths for individual functions is not feasible): consequently, its disposition in the Profiles determines how quickly Zicond can be adopted.
+
+While the specification of an extension is orthogonal to any assignments to profiles, Krste has provided the following guidance:
+
+* Zicond is too new to have been included in the early RVA23 drafts.
+* Assuming that Zicond is ratified before RVA23, it should at least be optional.
+* The instructions in Zicond are the type of instructions that will eventually be mandatory in RVA, though there has been little discussion so far about whether that would happen in RVA23 or later.
+
+=== Code-size of code-sequences using Zicond
+
+Zicond is motivated by reducing pressure on the branch prediction.
+It neither intends nor claims to reduce the code-size compared to alternative sequences (especially when register assignments allow the use of compressed instructions) using branches.
+
+The authors of the specification expect that "optimizing for code-size" will use idioms with short-forward branches to generate the most compact binaries.
+
+=== Data-independent timing for Zicond
+
+The definition of `czero.eqz` and `czero.nez` does not generally guarantee data-invariant timing (although it guarantees independence of the value of one of its arguments, if the Zkt extension is implemented).
+
+However, sequences using instructions covered by Zkt are available to express the same semantics as for the `czero.eqz` and `czero.nez` instructions.
+
+=== "Syntactic" dependencies through _rs1_
+
+Andrea Parri noted that the sentence "Accordingly, the syntactic dependency on _rs1_ is only propagated when the condition is false." (in the descriptions of <<#insns-czero-eqz>> and <<#insns-czero-nez>>) effectively makes the notion of dependency "depend" on a runtime state: in other words, it makes that notion non-"syntactic".
+
+The Unprivileged Specification, section 17.3, already lists similar "exceptions": this section/tables should be updated to reflect the addition of these instructions.
+
+=== Clarification of the memory model for _rs2_
+
+The dependency on _rs2_ is a control dependency rather than a data dependency.
+
+The descriptions of <<#insns-czero-eqz>> and <<#insns-czero-nez>> have been updated to reflext this, using the wording from the V extension (as the formalisation of what that "control dependency" means will be the same).
+Further, the SAIL code has been update so the read of rs1 is conditional based on rs2; this should remove the syntactic depency on rs1 in those cases.

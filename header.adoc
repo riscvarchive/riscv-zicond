@@ -60,8 +60,8 @@ Copyright 2022-2023 by RISC-V International.
 [preface]
 include::contributors.adoc[]
 
+include::comments-from-public-review.adoc[]
+
 include::intro.adoc[]
 include::zicondops.adoc[]
-//the index must precede the bibliography
-include::index.adoc[]
-include::bibliography.adoc[]
+

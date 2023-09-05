@@ -7,3 +7,4 @@ This RISC-V specification has been contributed to directly or indirectly by:
 * Ken Dockser <kdockser@tenstorrent.com>
 * Brendan Sweeney <brs@eecs.berkeley.edu>
 * Andrew Waterman <andrew@sifive.com>
+
