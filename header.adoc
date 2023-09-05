@@ -1,7 +1,7 @@
 [[header]]
 :description: RISC-V Integer Conditional (Zicond) operations extension
 :company: RISC-V.org
-:revdate: 2023-02-22
+:revdate: 2023-09-06
 :revnumber: 1.0
 :revremark: This document is frozen. See http://riscv.org/spec-state for details.
 :url-riscv: http://riscv.org
