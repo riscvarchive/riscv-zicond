@@ -12,7 +12,7 @@ $(PDF_RESULT):
 	asciidoctor-pdf \
     --attribute=mathematical-format=svg \
     --attribute=pdf-fontsdir=docs-resources/fonts \
-    --attribute=pdf-style=docs-resources/themes/riscv-pdf.yml \
+    --attribute=pdf-theme=docs-resources/themes/riscv-pdf.yml \
     --failure-level=ERROR \
     --require=asciidoctor-bibtex \
     --require=asciidoctor-diagram \
