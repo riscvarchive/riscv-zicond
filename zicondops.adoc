@@ -1,5 +1,5 @@
 [[Zicond]]
-== Zicond proposed specification
+== Zicond specification
 
 The "Conditional" operations extension provides a simple solution that provides most of the benefit and all of the flexibility one would desire to support conditional arithmetic and conditional-select/move operations, while remaining true to the RISC-V design philosophy.
 The instructions follow the format for R-type instructions with 3 operands (i.e., 2 source operands and 1 destination operand).
