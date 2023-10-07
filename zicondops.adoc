@@ -77,19 +77,10 @@ Encoding::
 ....
 
 Description::
-This instruction behaves as if there is a conditional branch dependent on _rs2_ being equal to zero, wherein it branches to code that writes a 0 into _rd_ when the equivalence is true, and otherwise falls through to code that moves _rs1_ into _rd_.
-Accordingly, the syntactic dependency on _rs1_ is only propagated when the condition is false.
-This instruction has a control dependency on _rs2_, rather than a data dependency.
-Furthermore, this instruction's timing is independent of the data value of _rs1_ if the Zkt extension is implemented. +
+If _rs2_ contains the value zero, this instruction writes the value zero to _rd_.  Otherwise, this instruction copies the contents of _rs1_ to _rd_.
 
-In effect, if the value of register _rs2_ is zero, place 0 (zero) into the register _rd_; otherwise, place the value of register _rs1_ into _rd_.
-
-[NOTE]
-====
-These branch-based semantics do not prevent implementing this instruction as a simple select (e.g., "(rs2==0) ? 0 : rs1").
-Instead, they allow for more sophisticated implementations where a zero result can be returned when the condition (rs2==0) is true without waiting for _rs1_ to be available.
-Furthermore, implementations can predict the condition just as they might for branches.
-====
+For the purposes of RVWMO, _rd_ syntactically depends on both _rs1_ and _rs2_.
+Furthermore, if the Zkt extension is implemented, this instruction's timing is independent of the data values in _rs1_ and _rs2_.
 
 SAIL code::
 [source,sail]
@@ -98,17 +89,6 @@ SAIL code::
   result : xlenbits = if (condition == zeros()) then zeros()
                                                 else X(rs1);
   X(rd) = result;
---
-
-Pseudocode::
-[source,asm]
---
-    beqz rs2, 1f
-    mv   rd, rs1
-    j    2f
-  1:
-    mv   rd, zero
-  2:
 --
 
 <<<
@@ -135,19 +115,10 @@ Encoding::
 ....
 
 Description::
-This instruction behaves as if there is a conditional branch dependent on _rs2_ being not equal to zero, wherein it branches to code that writes a 0 into _rd_ when the equivalence is true, and otherwise falls through to code that moves _rs1_ into _rd_.
-Accordingly, the syntactic dependency on _rs1_ is only propagated when the condition is false.
-This instruction has a control dependency on _rs2_, rather than a data dependency.
-Furthermore, this instruction's timing is independent of the data value of _rs1_ if the Zkt extension is implemented. +
+If _rs2_ contains a nonzero value, this instruction writes the value zero to _rd_.  Otherwise, this instruction copies the contents of _rs1_ to _rd_.
 
-In effect, if the value of register _rs2_ is non-zero, place 0 (zero) into the register _rd_; otherwise, place the value of register _rs1_ into _rd_.
-
-[NOTE]
-====
-These branch-based semantics do not prevent implementing this instruction as a simple select (e.g., "(rs2!=0) ? 0 : rs1").
-Instead, they allow for more sophisticated implementations where a zero result can be returned when the condition (rs2!=0) is true without waiting for _rs1_ to be available.
-Furthermore, implementations can predict the condition just as they might for branches.
-====
+For the purposes of RVWMO, _rd_ syntactically depends on both _rs1_ and _rs2_.
+Furthermore, if the Zkt extension is implemented, this instruction's timing is independent of the data values in _rs1_ and _rs2_.
 
 SAIL code::
 [source,sail]
@@ -156,17 +127,6 @@ SAIL code::
   result : xlenbits = if (condition != zeros()) then zeros()
                                                 else X(rs1);
   X(rd) = result;
---
-
-Pseudocode::
-[source,asm]
---
-    bnez rs2, 1f
-    mv   rd, rs1
-    j    2f
-  1:
-    mv   rd, zero
-  2:
 --
 
 == Usage examples
@@ -247,28 +207,5 @@ or         rd, rd, rtmp
 |czero.eqz  rd, rs1, rc
 czero.nez  rtmp, rs2, rc
 or         rd, rd, rtmp
-
-|===
-
-=== Alternative sequences with data-invariant timing
-
-The definition of `czero.eqz` and `czero.nez` does not generally guarantee data-invariant timing (although it guarantees independence of the value of one of its arguments, if the Zkt extension is implemented).
-
-However, sequences using instructions covered by Zkt are available to express the same semantics as for the `czero.eqz` and `czero.nez` instructions:
-
-[%header,cols="2,.^4l"]
-|===
-|Zicond instruction
-|Alternative sequence with data-invariant timing
-
-|`czero.eqz rd, rs1, rs2`
-|snez rtmp, rs2
-neg  rtmp, rtmp
-and  rd, rtmp, rs1
-
-|`czero.nez rd, rs1, rs2`
-|seqz rtmp, rs2
-neg  rtmp, rtmp
-and  rd, rtmp, rs1
 
 |===
