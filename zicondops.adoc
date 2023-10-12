@@ -79,7 +79,7 @@ Encoding::
 Description::
 If _rs2_ contains the value zero, this instruction writes the value zero to _rd_.  Otherwise, this instruction copies the contents of _rs1_ to _rd_.
 
-For the purposes of RVWMO, _rd_ syntactically depends on both _rs1_ and _rs2_.
+This instruction carries a syntactic dependency from both _rs1_ and _rs2_ to _rd_.
 Furthermore, if the Zkt extension is implemented, this instruction's timing is independent of the data values in _rs1_ and _rs2_.
 
 SAIL code::
@@ -117,7 +117,7 @@ Encoding::
 Description::
 If _rs2_ contains a nonzero value, this instruction writes the value zero to _rd_.  Otherwise, this instruction copies the contents of _rs1_ to _rd_.
 
-For the purposes of RVWMO, _rd_ syntactically depends on both _rs1_ and _rs2_.
+This instruction carries a syntactic dependency from both _rs1_ and _rs2_ to _rd_.
 Furthermore, if the Zkt extension is implemented, this instruction's timing is independent of the data values in _rs1_ and _rs2_.
 
 SAIL code::
