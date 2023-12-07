@@ -3,7 +3,7 @@
 :company: RISC-V.org
 :revdate: 2023-10-12
 :revnumber: 1.0.1
-:revremark: This document is frozen. See http://riscv.org/spec-state for details.
+:revremark: This document is ratified. See http://riscv.org/spec-state for details.
 :url-riscv: http://riscv.org
 :doctype: book
 :preface-title: Preamble
@@ -41,11 +41,9 @@ Dr. Philipp Tomsich (VRULL GmbH)
 
 // Preamble
 [NOTE]
-.This document is in the link:http://riscv.org/spec-state[Freeze state]
+.This document is in the link:http://riscv.org/spec-state[Ratified state]
 ====
-Change is extremely unlikely.
-A high threshold will be used, and a change will only occur because of some truly critical issue being identified during the public review cycle.
-Any other desired or needed changes can be the subject of a follow-on new extension.
+No changes are allowed. Any desired or needed changes can be the subject of a follow-on new extension. Ratified extensions are never revised
 ====
 
 [preface]
