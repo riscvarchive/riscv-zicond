@@ -1,3 +1,8 @@
+[NOTE]
+====
+Integer Conditional (Zicond) has been merged into the Unprivileged Specification.  Please log any issues against the link:https://github.com/riscv/riscv-isa-manual[RISC-V ISA Manual] repository.
+====
+
 = RISC-V docs-spec-template
 
 This repository is used to prime GitHub repos for the RISC-V organization which will be used
