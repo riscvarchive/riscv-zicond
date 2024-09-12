@@ -85,9 +85,10 @@ Furthermore, if the Zkt extension is implemented, this instruction's timing is i
 SAIL code::
 [source,sail]
 --
+  let value = X(rs1);
   let condition = X(rs2);
   result : xlenbits = if (condition == zeros()) then zeros()
-                                                else X(rs1);
+                                                else value;
   X(rd) = result;
 --
 
@@ -123,9 +124,10 @@ Furthermore, if the Zkt extension is implemented, this instruction's timing is i
 SAIL code::
 [source,sail]
 --
+  let value = X(rs1);
   let condition = X(rs2);
   result : xlenbits = if (condition != zeros()) then zeros()
-                                                else X(rs1);
+                                                else value;
   X(rd) = result;
 --
 
