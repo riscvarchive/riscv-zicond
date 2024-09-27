@@ -10,6 +10,7 @@ all: $(PDF_RESULT)
 $(PDF_RESULT):
 	@echo "Building asciidoc"
 	asciidoctor-pdf \
+    -a compress \
     --attribute=mathematical-format=svg \
     --attribute=pdf-fontsdir=docs-resources/fonts \
     --attribute=pdf-theme=docs-resources/themes/riscv-pdf.yml \
